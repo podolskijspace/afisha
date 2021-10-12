@@ -9,7 +9,7 @@ body {
   min-width: 350px;
   margin: 0;
   font-weight: 300;
-  font-size: 16rem;
+  font-size: 16px;
   font-family: $main-font;
 
   --safe-area-inset-top: env(safe-area-inset-top);
@@ -19,19 +19,11 @@ body {
 }
 
 html {
-  font-size: 1px;
-
-  @include tablet {
-    font-size: 0.07vw;
-  }
-
-  @include desktop-lg {
-    font-size: 1px;
-  }
-
-  @include desktop {
-    font-size: 0.05208vw;
-  }
+  //font-size: 0.0778802vw;
+  //
+  //@include phone {
+  //  font-size: 0.04vw;
+  //}
 }
 
 .flex {
@@ -78,17 +70,17 @@ ul, ol {
 }
 
 .h1 {
-  font-size: 42rem;
+  font-size: 42px;
 }
 
 .h2 {
-  font-size: 40rem;
+  font-size: 40px;
 }
 
 .h3 {
-  font-size: 22rem;
+  font-size: 22px;
 }
 
 .h4 {
-  font-size: 20rem;
+  font-size: 20px;
 }
