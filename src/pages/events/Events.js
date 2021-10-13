@@ -2,6 +2,8 @@ import {useState, useEffect} from "react";
 import Container from "../../components/container/Container";
 import Select from "../../components/select/Select";
 import {connect} from "react-redux";
+import { withRouter } from 'react-router'
+import makeDate from "../../services/makeDate";
 
 const date = new Date();
 const months = [
@@ -26,14 +28,14 @@ const years = [
   {name: '2017', value: '2017'},
 ];
 
-const Events = ({data}) => {
+const Events = ({data, history}) => {
   const [yearValue, setYearValue] = useState(date.getFullYear()),
-        [monthValue, setMonthValue] = useState(date.getMonth());
+        [monthValue, setMonthValue] = useState(date.getMonth()),
+        [elemsToShow, setElemsToShow] = useState();
 
   useEffect(() => {
     const month = localStorage.getItem('eventsMonth'),
           year = localStorage.getItem('eventsYear');
-
     if (month) {
       setMonthValue(+month);
     }
@@ -42,15 +44,56 @@ const Events = ({data}) => {
     }
   }, [])
 
+  useEffect(() => {
+    const onLink = ((id) => {
+      history.push(`/events/${id}`)
+    })
+
+    const result = data.map ((item) => {
+      let month = (new Date(item.date)).getMonth(),
+          year = (new Date(item.date)).getFullYear();
+
+      if (year === yearValue && month === monthValue) {
+        let newDate = makeDate(item.date)
+
+        return (
+          <li className="events__item" key={item.id}>
+            <div className="events__item-wrap">
+              <div className="events__item-header">
+              <span className="events__item-title">
+                {item.title}
+              </span>
+                <a onClick={(event) => {
+                  event.preventDefault();
+                  onLink(item.id);
+                }} className="events__item-link">
+                  Больше
+                </a>
+              </div>
+              <div className="events__item-img">
+                <img src={item.image} alt={item.title}/>
+              </div>
+              <div className="events__item-date">
+                {newDate}
+              </div>
+            </div>
+          </li>
+        )
+      }
+    })
+
+    setElemsToShow(result)
+  }, [monthValue, yearValue, data])
+
   const onYearSelect = (event) => {
     event.preventDefault();
-    setYearValue(event.target.value);
+    setYearValue(+event.target.value);
     localStorage.setItem('eventsYear',event.target.value);
   }
 
   const onMonthSelect = (event) => {
     event.preventDefault();
-    setMonthValue(event.target.value);
+    setMonthValue(+event.target.value);
     localStorage.setItem('eventsMonth',event.target.value);
   }
 
@@ -64,7 +107,7 @@ const Events = ({data}) => {
         </div>
         <div className="events__body">
           <ul className="events__list">
-
+            {elemsToShow}
           </ul>
         </div>
       </Container>
@@ -74,9 +117,9 @@ const Events = ({data}) => {
 
 
 
-const mstp = ({name}) => {
+const mstp = ({data}) => {
   return {
-    name,
+    data,
   }
 }
 
@@ -85,4 +128,4 @@ const mdtp = {
 }
 
 
-export default connect(mstp, mdtp)(Events);
+export default withRouter(connect(mstp, mdtp)(Events));

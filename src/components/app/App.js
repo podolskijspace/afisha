@@ -2,6 +2,8 @@ import {useEffect} from 'react';
 import Popups from "../popups/Popups";
 import Header from "../header/Header";
 import Events from "../../pages/events/Events";
+import Event from "../../pages/event/Event";
+import { Route} from 'react-router-dom';
 import {nameChange, popupHandler, changeData} from "../../actions";
 import {connect} from "react-redux";
 
@@ -29,6 +31,9 @@ function App({nameChange, popupHandler, getData, changeData}) {
         });
 
     }
+    else {
+      changeData(newData)
+    }
 
   },[])
 
@@ -36,7 +41,12 @@ function App({nameChange, popupHandler, getData, changeData}) {
   return (
     <div className="App">
       <Header/>
-      <Events/>
+      <Route path="/events" exact component={() => <Events/>}/>
+      <Route path="/events/:id" exact
+             render={({match}) => {
+               return <Event itemId={match.params.id}/>}
+             }
+      />
       <Popups/>
     </div>
   );

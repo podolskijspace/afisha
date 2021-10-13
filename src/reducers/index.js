@@ -8,7 +8,8 @@ const initialState = {
     enter: false,
   },
   getData,
-  data: null,
+  data: [],
+  signUpDate: JSON.parse( localStorage.getItem('signUpDate')) || [],
 }
 
 const reducer = (state = initialState, action) => {
@@ -34,6 +35,22 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         data: action.payload
+      };
+    case 'ON_SIGN_UP':
+      let newSignUpDate = [...state.signUpDate, action.payload]
+      localStorage.setItem('signUpDate',JSON.stringify(newSignUpDate));
+      return {
+        ...state,
+        signUpDate: newSignUpDate,
+      };
+    case 'ON_UNSUBSCRIBE':
+      console.log(state.signUpDate, action.payload)
+      const indexUnsub = state.signUpDate.indexOf(action.payload),
+            newUnsubDate = [...state.signUpDate.slice(0, indexUnsub), ...state.signUpDate.slice(indexUnsub + 1)];
+      localStorage.setItem('signUpDate',JSON.stringify(newUnsubDate));
+      return {
+        ...state,
+        signUpDate: newUnsubDate,
       };
 
     default:

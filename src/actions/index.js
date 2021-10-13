@@ -20,10 +20,24 @@ const changeData = (data) => {
   }
 }
 
+const onSignUp = (id) => {
+  return {
+    type: 'ON_SIGN_UP',
+    payload: id,
+  }
+}
 
+const onUnsubscribe = (id) => {
+  return {
+    type: 'ON_UNSUBSCRIBE',
+    payload: id,
+  }
+}
 
 export {
   nameChange,
   popupHandler,
   changeData,
+  onSignUp,
+  onUnsubscribe,
 }
