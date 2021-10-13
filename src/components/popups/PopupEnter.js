@@ -1,13 +1,21 @@
 import Input from "../input/Input"
 import Button from "../button/Button";
-import {useState} from "react";
-import svgClose from "../../images/svg/Close.svg";
+import {useState, useEffect} from "react";
+import {nameChange, popupHandler} from "../../actions";
+import {connect} from "react-redux";
+// import svgClose from "../../images/svg/Close.svg";
 
-const PopupEnter = () => {
-
+const PopupEnter = ({popups, nameChange, popupHandler}) => {
 
   const [valueName, setValueName] = useState("");
   const [valueSName, setValueSName] = useState("");
+  const [incorrectName, setIncorrectName] = useState(false);
+  const [incorrectSName, setIncorrectSName] = useState(false);
+  const [statusPopup, setStatus] = useState(true);
+
+  useEffect(() => {
+    setStatus(popups.enter);
+  }, [popups.enter])
 
   const onInputDo = (event, set) => {
     event.preventDefault();
@@ -15,42 +23,78 @@ const PopupEnter = () => {
     set(event.target.value);
   }
 
+  const onEnter = () => {
+    if (valueName !== '' && valueSName === '') {
+      nameChange({name: valueName, sName: valueSName});
+      popupHandler('enter', false);
+      setValueName('');
+      setValueSName('');
+      setIncorrectName(false);
+      setIncorrectSName(false);
+    } else {
+      if (valueName === '') {
+        setIncorrectName(true);
+      }
+      if (valueSName === '') {
+        setIncorrectSName(true);
+      }
+    }
+  }
+
+  const onContinue = () => {
+    popupHandler('enter', false);
+  }
+
   return (
-    <div className="popup popup--enter">
+    <div className={`popup popup--enter${statusPopup ? ' active' : ''}`}>
       <div className="popup__wrapper">
         <div className="popup__header">
           <h3 className="popup__title">
             Желаете войти?
           </h3>
           <div className="popup__close">
-            {svgClose}
+            {/*{svgClose}*/}
+            Закрыть
           </div>
         </div>
         <div className="popup__body">
           <Input
           placeholder="Имя"
-          mod="require"
+          mod={`${incorrectName ? ' incorrect':''}`}
           value={valueName}
           onInput={event=>onInputDo(event, setValueName)}
           />
           <Input
           placeholder="Фамилия"
-          mod="require"
+          mod={`${incorrectSName ? ' incorrect':''}`}
           value={valueSName}
-          onInput={event=>onInputDo(event, setValueSName)}
-          />
+          onInput={event=>onInputDo(event, setValueSName)}/>
         </div>
         <div className="popup__bottom">
           <Button
           text="Остаться как гость"
-          mod="popup__button"/>
+          mod="popup__button"
+          onClick={onContinue}/>
           <Button
           text="Войти"
-          mod="popup__button"/>
+          mod="popup__button"
+          onClick={onEnter}/>
         </div>
       </div>
     </div>
   )
 }
 
-export default PopupEnter;
+const mstp = ({popups}) => {
+  return {
+    popups,
+  }
+}
+
+const mdtp = {
+  nameChange,
+  popupHandler
+}
+
+
+export default connect(mstp, mdtp)(PopupEnter);

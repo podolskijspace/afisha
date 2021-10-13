@@ -1,13 +1,27 @@
 const initialState = {
-  menuActive: false,
+  name: {},
+  popups: {
+    enter: false,
+  }
 }
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'MENU_ACTION':
+    case 'CHANGE__NAME':
+      const nameUser = action.payload;
+
+      localStorage.setItem('logged',JSON.stringify({name: nameUser.name, sName: nameUser.sName}));
       return {
         ...state,
-        menuActive: !state.menuActive,
+        name: nameUser,
+      };
+    case 'POPUPS':
+      return {
+        ...state,
+        popups: {
+          ...state.popups,
+          [action.name]: action.status
+        },
       };
 
     default:

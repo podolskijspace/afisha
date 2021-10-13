@@ -1,7 +1,9 @@
 const Button = ({text='Клик',
-                mod = "",}) => {
+                mod = "",
+                onClick = null}) => {
   return (
-    <button className={`button ${mod}`}>
+    <button className={`button ${mod}`}
+    onClick={onClick}>
       {text}
     </button>
   )

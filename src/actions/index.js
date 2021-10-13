@@ -1,10 +1,19 @@
-const menuChanged = (newMenu) => {
+const nameChange = (name) => {
   return {
-    type: 'MENU_ACTION',
-    payload: newMenu,
+    type: 'CHANGE__NAME',
+    payload: name,
+  }
+}
+
+const popupHandler = (name, status) => {
+  return {
+    type: 'POPUPS',
+    name,
+    status
   }
 }
 
 export {
-  menuChanged,
+  nameChange,
+  popupHandler,
 }
