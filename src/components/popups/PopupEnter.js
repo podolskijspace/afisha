@@ -24,7 +24,7 @@ const PopupEnter = ({popups, nameChange, popupHandler}) => {
   }
 
   const onEnter = () => {
-    if (valueName !== '' && valueSName === '') {
+    if (valueName !== '' && valueSName !== '') {
       nameChange({name: valueName, sName: valueSName});
       popupHandler('enter', false);
       setValueName('');

@@ -1,8 +1,14 @@
+import GetData from "../services/getData";
+
+const getData = new GetData();
+
 const initialState = {
   name: {},
   popups: {
     enter: false,
-  }
+  },
+  getData,
+  data: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -22,6 +28,12 @@ const reducer = (state = initialState, action) => {
           ...state.popups,
           [action.name]: action.status
         },
+      };
+    case 'CHANGE_DATA':
+      localStorage.setItem('data',JSON.stringify(action.payload));
+      return {
+        ...state,
+        data: action.payload
       };
 
     default:

@@ -1,0 +1,10 @@
+.nav {
+  &__list {
+    display: flex;
+    margin: -5px;
+  }
+
+  &__item {
+    padding: 10px;
+  }
+}

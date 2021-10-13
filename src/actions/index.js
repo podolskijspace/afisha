@@ -13,7 +13,17 @@ const popupHandler = (name, status) => {
   }
 }
 
+const changeData = (data) => {
+  return {
+    type: 'CHANGE_DATA',
+    payload: data,
+  }
+}
+
+
+
 export {
   nameChange,
   popupHandler,
+  changeData,
 }
