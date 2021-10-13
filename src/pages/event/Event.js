@@ -1,3 +1,4 @@
+import {useState, useEffect} from "react";
 import Container from "../../components/container/Container";
 import Button from "../../components/button/Button";
 import {connect} from "react-redux";
@@ -5,12 +6,35 @@ import makeDate from "../../services/makeDate";
 import {onSignUp, onUnsubscribe} from "../../actions";
 
 
-const Event = ({itemId, data, onSignUp, signUpDate, onUnsubscribe}) => {
+const Event = ({itemId, data, onSignUp, onUnsubscribe, name}) => {
   const item = data.find(item => +itemId === +item.id),
         newDate = makeDate(item ? item.date : new Date()),
-        answer = typeof (signUpDate.find(item => (item ==itemId))) === 'string';
+        users = item && item.users;
+  let answer;
+  const [usersList, setUsersList] = useState(null);
 
-  console.log(answer)
+  useEffect(() => { //Эффект для вывода подписанных людей снизу
+    let array;
+    if (users) {
+      array = users.map((item, i) => {
+        return (
+          <li key ={i}>
+            {`${item.name} ${item.sName}`}
+          </li>
+        )
+      })
+      setUsersList(array);
+    } else {
+      setUsersList(null);
+    }
+  },[data])
+
+  if (users) {
+    answer = item.users.find(item => {
+      return (item.name === name.name && item.sName === name.sName);
+    })
+  }
+
 
   const onSignUpButton = () => {
     onSignUp(itemId);
@@ -19,6 +43,9 @@ const Event = ({itemId, data, onSignUp, signUpDate, onUnsubscribe}) => {
   const onUnsubscribeButton = () => {
     onUnsubscribe(itemId);
   }
+
+
+
 
   return (
     <div className="event">
@@ -45,18 +72,30 @@ const Event = ({itemId, data, onSignUp, signUpDate, onUnsubscribe}) => {
         <h3 className="event__vis-title">
           Посетители
         </h3>
-        <span className="event__vis-text">
-          Пока никто не записан
-        </span>
+        <ViewUsers usersList={usersList}/>
       </Container>
     </div>
   )
 }
 
-const mstp = ({data, signUpDate}) => {
+const ViewUsers = ({usersList}) => {
+  if (usersList && usersList.length !== 0) {
+    return (
+      <ul>
+        {usersList}
+      </ul>
+    )
+  } else {
+    return (
+      <span>Пока никто не записан</span>
+    )
+  }
+}
+
+const mstp = ({data, name,}) => {
   return {
     data,
-    signUpDate,
+    name,
   }
 }
 

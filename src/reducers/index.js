@@ -37,20 +37,39 @@ const reducer = (state = initialState, action) => {
         data: action.payload
       };
     case 'ON_SIGN_UP':
-      let newSignUpDate = [...state.signUpDate, action.payload]
-      localStorage.setItem('signUpDate',JSON.stringify(newSignUpDate));
+      let signUpId = state.data.findIndex(item => item.id == action.payload);
+      let newSignUpData = [...state.data];
+      if (newSignUpData[signUpId].users) {
+        newSignUpData[signUpId].users.push({name: state.name.name, sName: state.name.sName});
+      }
+      else {
+        newSignUpData[signUpId].users = [{name: state.name.name, sName: state.name.sName}];
+      }
+      localStorage.setItem('data',JSON.stringify(newSignUpData));
       return {
         ...state,
-        signUpDate: newSignUpDate,
+        data: newSignUpData,
       };
     case 'ON_UNSUBSCRIBE':
-      console.log(state.signUpDate, action.payload)
-      const indexUnsub = state.signUpDate.indexOf(action.payload),
-            newUnsubDate = [...state.signUpDate.slice(0, indexUnsub), ...state.signUpDate.slice(indexUnsub + 1)];
-      localStorage.setItem('signUpDate',JSON.stringify(newUnsubDate));
+      let indexUnsub = state.data.findIndex(item => item.id == action.payload),
+          newItem = {...state.data[indexUnsub]},
+          nameIndex = newItem.users.findIndex(item => {
+              return (item.name === state.name.name && item.sName === state.name.sName);
+            });
+
+            newItem = {
+              ...newItem,
+              users:[...newItem.users.slice(0, nameIndex), ...newItem.users.slice(nameIndex + 1)]
+            };
+      const newUnsubDate = [
+            ...state.data.slice(0, indexUnsub),
+            newItem,
+            ...state.data.slice(indexUnsub + 1),
+          ];
+      localStorage.setItem('data',JSON.stringify(newUnsubDate));
       return {
         ...state,
-        signUpDate: newUnsubDate,
+        data: newUnsubDate,
       };
 
     default:
