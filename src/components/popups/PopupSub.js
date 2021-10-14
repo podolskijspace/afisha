@@ -66,7 +66,7 @@ const PopupSub = ({popups, nameChange, popupHandler, history, data, onSignUp}) =
   }
 
   return (
-    <div className={`popup popup--enter${statusPopup ? ' active' : ''}`}>
+    <div className={`popup popup--sub${statusPopup ? ' active' : ''}`}>
       <div className="popup__wrapper">
         <div className="popup__header">
           <h3 className="popup__title">

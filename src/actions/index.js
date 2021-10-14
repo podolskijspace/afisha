@@ -34,10 +34,28 @@ const onUnsubscribe = (id) => {
   }
 }
 
+const onSetMonth = (month) => {
+  return {
+    type: 'ON_SET_MONTH',
+    payload: month,
+  }
+}
+
+const onSetYear = (year) => {
+  return {
+    type: 'ON_SET_YEAR',
+    payload: year,
+  }
+}
+
+
+
 export {
   nameChange,
   popupHandler,
   changeData,
   onSignUp,
   onUnsubscribe,
+  onSetMonth,
+  onSetYear
 }

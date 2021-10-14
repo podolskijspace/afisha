@@ -12,6 +12,8 @@ const initialState = {
   getData,
   data: [],
   signUpDate: JSON.parse( localStorage.getItem('signUpDate')) || [],
+  month: null,
+  year: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -72,6 +74,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         data: newUnsubDate,
+      };
+    case 'ON_SET_MONTH':
+      return {
+        ...state,
+        month: action.payload,
+      };
+    case 'ON_SET_YEAR':
+      return {
+        ...state,
+        year: action.payload,
       };
 
     default:

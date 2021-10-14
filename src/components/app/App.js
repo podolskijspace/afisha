@@ -2,12 +2,13 @@ import {useEffect} from 'react';
 import Popups from "../popups/Popups";
 import Header from "../header/Header";
 import Events from "../../pages/events/Events";
+import Calendar from "../../pages/calendar/Calendar";
 import Event from "../../pages/event/Event";
 import { Route} from 'react-router-dom';
-import {nameChange, popupHandler, changeData} from "../../actions";
+import {nameChange, popupHandler, changeData, onSetMonth, onSetYear} from "../../actions";
 import {connect} from "react-redux";
 
-function App({nameChange, popupHandler, getData, changeData}) {
+function App({nameChange, popupHandler, getData, changeData, onSetMonth, onSetYear}) {
   useEffect(()=> { //Проверяет локал сторейдж на наличии имени, если нет, то открывает модальное окно enter
     const name = JSON.parse( localStorage.getItem('logged')) || {}; //Присваиваем пустой объект, чтобы не было ошибки в следующей проверке из-за null
     if (typeof name.name === 'string' &&
@@ -37,11 +38,22 @@ function App({nameChange, popupHandler, getData, changeData}) {
 
   },[])
 
+  useEffect(()=> { //Проверка даты в Storage
+    const month = localStorage.getItem('eventsMonth'),
+      year = localStorage.getItem('eventsYear');
+    if (month) {
+      onSetMonth(+month);
+    }
+    if (year) {
+      onSetYear(+year);
+    }
+  }, [])
 
   return (
     <div className="App">
       <Header/>
       <Route path="/events" exact component={() => <Events/>}/>
+      <Route path="/calendar" exact component={() => <Calendar/>}/>
       <Route path="/events/:id" exact
              render={({match}) => {
                return <Event itemId={match.params.id}/>}
@@ -62,6 +74,8 @@ const mdtp = {
   nameChange,
   popupHandler,
   changeData,
+  onSetMonth,
+  onSetYear
 }
 
 
