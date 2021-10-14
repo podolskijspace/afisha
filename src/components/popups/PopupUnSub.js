@@ -1,84 +1,47 @@
-import Input from "../input/Input"
 import Button from "../button/Button";
 import {useState, useEffect} from "react";
-import {nameChange, popupHandler} from "../../actions";
+import {popupHandler, onUnsubscribe} from "../../actions";
 import {connect} from "react-redux";
-// import svgClose from "../../images/svg/Close.svg";
+import { withRouter } from 'react-router'
 
-const PopupEnter = ({popups, nameChange, popupHandler}) => {
 
-  const [valueName, setValueName] = useState("");
-  const [valueSName, setValueSName] = useState("");
-  const [incorrectName, setIncorrectName] = useState(false);
-  const [incorrectSName, setIncorrectSName] = useState(false);
-  const [statusPopup, setStatus] = useState(true);
+const PopupUnSub = ({popups, popupHandler, history, onUnsubscribe}) => {
+
+  const [statusPopup, setStatus] = useState(false);
 
   useEffect(() => {
-    setStatus(popups.enter);
-  }, [popups.enter])
+    setStatus(popups.unSub);
+  }, [popups.unSub])
 
-  const onInputDo = (event, set) => {
-    event.preventDefault();
 
-    set(event.target.value);
+  const onYes = () => {
+    const id = history.location.pathname.replace(/\D/g, '');
+    onUnsubscribe(id);
+    popupHandler('unSub', false);
   }
 
-  const onEnter = () => {
-    if (valueName !== '' && valueSName !== '') {
-      nameChange({name: valueName, sName: valueSName});
-      popupHandler('enter', false);
-      setValueName('');
-      setValueSName('');
-      setIncorrectName(false);
-      setIncorrectSName(false);
-    } else {
-      if (valueName === '') {
-        setIncorrectName(true);
-      }
-      if (valueSName === '') {
-        setIncorrectSName(true);
-      }
-    }
-  }
+  const onNo = () => {
+    popupHandler('unSub', false);
 
-  const onContinue = () => {
-    popupHandler('enter', false);
   }
 
   return (
-    <div className={`popup popup--enter${statusPopup ? ' active' : ''}`}>
+    <div className={`popup popup--unsub${statusPopup ? ' active' : ''}`}>
       <div className="popup__wrapper">
         <div className="popup__header">
           <h3 className="popup__title">
-            Желаете войти?
+            Вы уверены что хотите отписаться??
           </h3>
-          <div className="popup__close">
-            {/*{svgClose}*/}
-            Закрыть
-          </div>
         </div>
         <div className="popup__body">
-          <Input
-          placeholder="Имя"
-          mod={`${incorrectName ? ' incorrect':''}`}
-          value={valueName}
-          onInput={event=>onInputDo(event, setValueName)}
-          />
-          <Input
-          placeholder="Фамилия"
-          mod={`${incorrectSName ? ' incorrect':''}`}
-          value={valueSName}
-          onInput={event=>onInputDo(event, setValueSName)}/>
-        </div>
-        <div className="popup__bottom">
           <Button
-          text="Остаться как гость"
-          mod="popup__button"
-          onClick={onContinue}/>
+            text="Нет"
+            mod="popup__button"
+            onClick={onNo} />
           <Button
-          text="Войти"
-          mod="popup__button"
-          onClick={onEnter}/>
+            text="Да"
+            mod="popup__button"
+            onClick={onYes}/>
         </div>
       </div>
     </div>
@@ -92,9 +55,9 @@ const mstp = ({popups}) => {
 }
 
 const mdtp = {
-  nameChange,
-  popupHandler
+  popupHandler,
+  onUnsubscribe
 }
 
 
-export default connect(mstp, mdtp)(PopupEnter);
+export default withRouter(connect(mstp, mdtp)(PopupUnSub));

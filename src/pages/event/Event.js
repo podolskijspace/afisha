@@ -3,10 +3,10 @@ import Container from "../../components/container/Container";
 import Button from "../../components/button/Button";
 import {connect} from "react-redux";
 import makeDate from "../../services/makeDate";
-import {onSignUp, onUnsubscribe} from "../../actions";
+import {onSignUp, onUnsubscribe, popupHandler} from "../../actions";
 
 
-const Event = ({itemId, data, onSignUp, onUnsubscribe, name}) => {
+const Event = ({itemId, data, onSignUp, name, popupHandler}) => {
   const item = data.find(item => +itemId === +item.id),
         newDate = makeDate(item ? item.date : new Date()),
         users = item && item.users;
@@ -37,11 +37,16 @@ const Event = ({itemId, data, onSignUp, onUnsubscribe, name}) => {
 
 
   const onSignUpButton = () => {
-    onSignUp(itemId);
+    if (name && name.name && name.sName) {
+      onSignUp(itemId);
+    }
+    else {
+      popupHandler('sub', true)
+    }
   }
 
   const onUnsubscribeButton = () => {
-    onUnsubscribe(itemId);
+    popupHandler('unSub', true);
   }
 
 
@@ -101,7 +106,8 @@ const mstp = ({data, name,}) => {
 
 const mdtp = {
   onSignUp,
-  onUnsubscribe
+  onUnsubscribe,
+  popupHandler
 }
 
 

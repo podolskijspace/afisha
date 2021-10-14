@@ -6,6 +6,8 @@ const initialState = {
   name: {},
   popups: {
     enter: false,
+    unSub: false,
+    sub: false,
   },
   getData,
   data: [],
