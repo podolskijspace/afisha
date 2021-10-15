@@ -35,12 +35,12 @@ function App({nameChange, popupHandler, getData, changeData, onSetMonth, onSetYe
     else {
       changeData(newData)
     }
-
   },[])
 
   useEffect(()=> { //Проверка даты в Storage
-    const month = localStorage.getItem('eventsMonth'),
-      year = localStorage.getItem('eventsYear');
+    const date = new Date();
+    const month = localStorage.getItem('eventsMonth') || date.getMonth(),
+      year = localStorage.getItem('eventsYear') || date.getFullYear();
     if (month) {
       onSetMonth(+month);
     }

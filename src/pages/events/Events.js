@@ -19,7 +19,7 @@ const Events = ({data, history, month, year}) => {
 
 
     const result = data.map ((item) => {
-      let monthItem = (new Date(item.date)).getMonth() + 1,
+      let monthItem = (new Date(item.date)).getMonth(),
           yearItem = (new Date(item.date)).getFullYear();
       console.log(yearItem, year)
       if (yearItem === year && monthItem === month) {
@@ -59,7 +59,7 @@ const Events = ({data, history, month, year}) => {
 
   return (
     <div className="events">
-      <Container>
+      <Container mod="events__container">
         <DateComponent/>
         <div className="events__body">
           <ul className="events__list">

@@ -21,15 +21,14 @@ const Calendar = ({data, month, year, history, name, popupHandler}) => {
   useEffect(() => {
     const result = data.map ((item) => {
       let monthItem = (new Date(item.date)).getMonth(),
-        yearItem = (new Date(item.date)).getFullYear(),
-        counter = 0;
+        yearItem = (new Date(item.date)).getFullYear();
 
       const checkName = item.users && item.users.find(item => item.name === name.name),
             checkSName = item.users && item.users.find(item => item.sName === name.sName);
-      if (yearItem === year && monthItem === month && checkName && checkSName && counter <= 3) {
+      if (yearItem === year && monthItem === month && checkName && checkSName) {
         const desc = cutWords(item.description ,5);
-        counter += 1;
         return (
+
           <li className="calendar__item" key={item.id}>
             <div className="calendar__item-wrap">
               <div className="calendar__item-img">
