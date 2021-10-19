@@ -1,4 +1,9 @@
 .input {
+  padding: 5px 12px;
+  height: 32px;
+  width: 100%;
+  font-size: 14px;
+  font-family: $roboto;
   &.incorrect {
     border-color: red;
   }

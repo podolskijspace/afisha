@@ -1,10 +1,15 @@
 .nav {
   &__list {
     display: flex;
-    margin: -5px;
+    justify-content: flex-end;
+    margin: -20px;
+
+    @include tablet {
+      justify-content: center;
+    }
   }
 
   &__item {
-    padding: 10px;
+    padding: 20px;
   }
 }

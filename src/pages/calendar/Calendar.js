@@ -43,13 +43,12 @@ const Calendar = ({data, month, year, history, name, popupHandler}) => {
                 </p>
               </div>
               <div className="calendar__item-buttons">
-                <Button onClick={onUnsubscribeButton} mod="calendar__button" text="Удалить"/>
-                <a onClick={(event) => {
+                <Button onClick={onUnsubscribeButton} mod="calendar__button button--href" text="Удалить"/>
+                <Button onClick={(event) => {
                   event.preventDefault();
                   onLink(item.id);
-                }} className="calendar__item-link">
-                  Перейти на страницу
-                </a>
+                }}
+                mod="calendar__button button--href" text="Перейти на страницу"/>
               </div>
             </div>
           </li>
@@ -62,7 +61,7 @@ const Calendar = ({data, month, year, history, name, popupHandler}) => {
 
   return (
     <div className="calendar">
-      <Container>
+      <Container mod="calendar__container">
         <DateComponent/>
         <div className="calendar__body">
           <ul className="calendar__list">

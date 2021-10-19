@@ -18,7 +18,7 @@ const Event = ({itemId, data, onSignUp, name, popupHandler}) => {
     if (users) {
       array = users.map((item, i) => {
         return (
-          <li key ={i}>
+          <li className="event__item" key ={i}>
             {`${item.name} ${item.sName}`}
           </li>
         )
@@ -55,29 +55,34 @@ const Event = ({itemId, data, onSignUp, name, popupHandler}) => {
   return (
     <div className="event">
       <Container>
-        <div className="event__img">
-          <img src={item ? item.image : ''} alt={item ? item.title : ''}/>
+        <div className="event__wrapper">
+          <div className="event__img">
+            <img src={item ? item.image : ''} alt={item ? item.title : ''}/>
+          </div>
+          <div className="event__content">
+            <div className="event__header">
+              <h2 className="event__title">
+                {item ? item.title : ''}
+              </h2>
+              <span className="event__date">
+              {newDate}
+            </span>
+            </div>
+            <p className="event__text">
+              {item ? item.description : ''}
+            </p>
+            {answer ?
+              <Button onClick={onUnsubscribeButton} mod="event__button button--red" text="Отписаться"/> :
+              <Button onClick={onSignUpButton} mod="event__button" text="Записаться"/>
+            }
+          </div>
         </div>
-        <div className="event__header">
-          <h2 className="event__title">
-            {item ? item.title : ''}
-          </h2>
-          <span className="event__date">
-            {newDate}
-          </span>
+        <div className="event__bottom">
+          <h3 className="event__vis-title">
+            Посетители
+          </h3>
+          <ViewUsers usersList={usersList}/>
         </div>
-        <p className="event__text">
-          {item ? item.description : ''}
-        </p>
-        {answer ?
-          <Button onClick={onUnsubscribeButton} mod="event__button" text="Отписаться"/> :
-          <Button onClick={onSignUpButton} mod="event__button" text="Записаться"/>
-        }
-
-        <h3 className="event__vis-title">
-          Посетители
-        </h3>
-        <ViewUsers usersList={usersList}/>
       </Container>
     </div>
   )
@@ -86,7 +91,7 @@ const Event = ({itemId, data, onSignUp, name, popupHandler}) => {
 const ViewUsers = ({usersList}) => {
   if (usersList && usersList.length !== 0) {
     return (
-      <ul>
+      <ul className="event__list">
         {usersList}
       </ul>
     )

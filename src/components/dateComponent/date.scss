@@ -1,0 +1,11 @@
+.date {
+  padding: 74px 0 30px;
+  display: flex;
+  justify-content: flex-end;
+
+  &__select {
+    &:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+}

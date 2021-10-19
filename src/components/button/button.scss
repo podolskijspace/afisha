@@ -1,0 +1,100 @@
+.button {
+  $self: &;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 16px;
+  border: 1px solid $blue;
+  background: $blue;
+  color: #fff;
+  font-size: 14px;
+  transition: all 0.3s;
+
+  @include hover {
+    cursor: pointer;
+    box-shadow: 1px 3px 8px rgba(#000, .3);
+  }
+
+  &--transparent {
+    background: transparent;
+    border-color: #D9D9D9;
+    color: #000;
+  }
+
+  &--red {
+    background: #FF4D4F;
+    border-color: #FF4D4F;
+  }
+
+  &--href {
+    background: transparent;
+    border-color: transparent;
+    color: $blue;
+    padding: 0;
+    font-weight: 700;
+    font-size: 14px;
+
+    &:visited {
+      color: rgba($blue, .5)
+    }
+  }
+
+  &--only-icon {
+    background: transparent;
+    border-color: transparent;
+    padding: 2px;
+  }
+
+  &--nav {
+    position: relative;
+    background: transparent;
+    border-color: transparent;
+    padding: 0 0 13px 0;
+    color: rgba(#000, .25);
+    text-decoration: none;
+    transition: color .3s;
+    font-size: 14px;
+
+    &::after {
+      position: absolute;
+      content: '';
+      display: block;
+      width: 0;
+      background: $blue;
+      height: 1px;
+      bottom: 0;
+      left: 0;
+      transition: width .3s;
+    }
+
+    @include hover {
+      box-shadow: none;
+      color: $blue;
+
+      svg {
+        fill: $blue;
+        transition: fill .3s;
+      }
+
+      &::after {
+        width: 100%;
+      }
+    }
+
+    &.active {
+      color: $blue;
+      &::after {
+        width: 100%;
+      }
+
+      svg {
+        fill: $blue;
+      }
+    }
+
+    svg {
+      fill: rgba(#000, .25);
+      margin-right: 10px;
+    }
+  }
+}

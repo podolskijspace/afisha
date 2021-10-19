@@ -2,6 +2,7 @@
 @import "../components/header/header";
 @import "../components/nav/nav";
 @import "../components/container/container";
+@import "../components/dateComponent/date";
 @import "../components/popups/popup"; // Все модальные окна
 
 //small components
@@ -12,4 +13,4 @@
 //pages
 @import "../pages/events/events";
 @import "../pages/calendar/calendar";
-//@import "../pages/event/event";
+@import "../pages/event/event";

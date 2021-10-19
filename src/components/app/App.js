@@ -50,7 +50,7 @@ function App({nameChange, popupHandler, getData, changeData, onSetMonth, onSetYe
   }, [])
 
   return (
-    <div className="App">
+    <div className="app">
       <Header/>
       <Route path="/events" exact component={() => <Events/>}/>
       <Route path="/calendar" exact component={() => <Calendar/>}/>

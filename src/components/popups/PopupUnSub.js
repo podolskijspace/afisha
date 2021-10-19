@@ -40,7 +40,7 @@ const PopupUnSub = ({popups, popupHandler, history, onUnsubscribe}) => {
             onClick={onNo} />
           <Button
             text="Да"
-            mod="popup__button"
+            mod="popup__button  button--red"
             onClick={onYes}/>
         </div>
       </div>

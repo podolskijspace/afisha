@@ -62,8 +62,8 @@ const DateComponent = ({onSetMonth, onSetYear, month, year}) => {
 
   return (
     <div className="date">
-      <Select data={months} value={monthValue} onChange={onMonthSelect}/>
-      <Select data={years} value={yearValue} onChange={onYearSelect}/>
+      <Select mod="date__select" data={months} value={monthValue} onChange={onMonthSelect}/>
+      <Select mod="date__select" data={years} value={yearValue} onChange={onYearSelect}/>
     </div>
   )
 }

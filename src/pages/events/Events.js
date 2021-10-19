@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 import Container from "../../components/container/Container";
+import Button from "../../components/button/Button";
 import DateComponent from "../../components/dateComponent/DateComponent";
 import {connect} from "react-redux";
 import { withRouter } from 'react-router'
@@ -21,29 +22,32 @@ const Events = ({data, history, month, year}) => {
     const result = data.map ((item) => {
       let monthItem = (new Date(item.date)).getMonth(),
           yearItem = (new Date(item.date)).getFullYear();
-      console.log(yearItem, year)
       if (yearItem === year && monthItem === month) {
         let newDate = makeDate(item.date)
 
         return (
           <li className="events__item" key={item.id}>
             <div className="events__item-wrap">
-              <div className="events__item-header">
+              <div className="events__item-wrap">
+                <div className="events__item-header">
               <span className="events__item-title">
                 {item.title}
               </span>
-                <a onClick={(event) => {
-                  event.preventDefault();
-                  onLink(item.id);
-                }} className="events__item-link">
-                  Больше
-                </a>
-              </div>
-              <div className="events__item-img">
-                <img src={item.image} alt={item.title}/>
-              </div>
-              <div className="events__item-date">
-                {newDate}
+                  <Button onClick={(event) => {
+                    event.preventDefault();
+                    onLink(item.id);
+                  }}
+                    mod="transparent events__item-button"
+                    href
+                    text = "Больше"
+                  />
+                </div>
+                <div className="events__item-img">
+                  <img src={item.image} alt={item.title}/>
+                </div>
+                <div className="events__item-date">
+                  {newDate}
+                </div>
               </div>
             </div>
           </li>

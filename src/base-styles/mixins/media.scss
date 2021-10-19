@@ -1,7 +1,7 @@
 $phone-bp: 410px;
 $phone-lg-bp: 576px;
 $tablet-bp: 768px;
-$tablet-lg-bp: 1024px;
+$tablet-lg-bp: 980px;
 $desktop-bp: 1280px;
 $desktop-lg-bp: 1440px;
 $desktop-xl-bp: 1920px;
@@ -61,5 +61,13 @@ $desktop-xl-bp: 1920px;
 @mixin desktop-lg {
   @media screen and (max-width: #{$desktop-xl-bp}) {
     @content;
+  }
+}
+
+@mixin hover {
+  &:hover {
+    @media screen and (min-width: #{$tablet-lg-bp}) {
+      @content;
+    }
   }
 }

@@ -11,7 +11,7 @@ const Input = ({  type="text",
           type={type}
           placeholder={placeholder}
           value={value}
-          className={`input${mod}`}/>
+          className={`input ${mod}`}/>
 }
 
 export default Input;

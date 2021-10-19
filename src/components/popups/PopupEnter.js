@@ -3,7 +3,7 @@ import Button from "../button/Button";
 import {useState, useEffect} from "react";
 import {nameChange, popupHandler} from "../../actions";
 import {connect} from "react-redux";
-// import svgClose from "../../images/svg/Close.svg";
+import iconClose from "../../images/png/сlose.png";
 
 const PopupEnter = ({popups, nameChange, popupHandler}) => {
 
@@ -52,28 +52,30 @@ const PopupEnter = ({popups, nameChange, popupHandler}) => {
           <h3 className="popup__title">
             Желаете войти?
           </h3>
-          <div className="popup__close">
-            {/*{svgClose}*/}
-            Закрыть
-          </div>
+          <Button
+            onlyIcon
+            mod="popup__close"
+            onClick={onContinue}
+            icon="close"
+          />
         </div>
         <div className="popup__body">
           <Input
           placeholder="Имя"
-          mod={`${incorrectName ? ' incorrect':''}`}
+          mod={`popup__input ${incorrectName ? ' incorrect':''}`}
           value={valueName}
           onInput={event=>onInputDo(event, setValueName)}
           />
           <Input
           placeholder="Фамилия"
-          mod={`${incorrectSName ? ' incorrect':''}`}
+          mod={`popup__input ${incorrectSName ? ' incorrect':''}`}
           value={valueSName}
           onInput={event=>onInputDo(event, setValueSName)}/>
         </div>
         <div className="popup__bottom">
           <Button
           text="Остаться как гость"
-          mod="popup__button"
+          mod="popup__button button--transparent"
           onClick={onContinue}/>
           <Button
           text="Войти"
