@@ -34,8 +34,8 @@
     font-weight: 700;
     font-size: 14px;
 
-    &:visited {
-      color: rgba($blue, .5)
+    @include hover {
+      box-shadow: none;
     }
   }
 
@@ -43,6 +43,10 @@
     background: transparent;
     border-color: transparent;
     padding: 2px;
+
+    @include hover {
+      box-shadow: none;
+    }
   }
 
   &--nav {

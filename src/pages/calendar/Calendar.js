@@ -5,17 +5,17 @@ import {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import { withRouter } from 'react-router'
 import cutWords from "../../services/cutWords";
-import {popupHandler} from "../../actions";
+import {onUnsubscribe} from "../../actions";
 
-const Calendar = ({data, month, year, history, name, popupHandler}) => {
+const Calendar = ({data, month, year, history, name, onUnsubscribe}) => {
   const [elemsToShow, setElemsToShow] = useState();
 
   const onLink = ((id) => {
     history.push(`/events/${id}`)
   })
-  console.log(month, year)
-  const onUnsubscribeButton = () => {
-    popupHandler('unSub', true);
+
+  const onUnsubscribeButton = (id) => {
+    onUnsubscribe(id);
   }
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const Calendar = ({data, month, year, history, name, popupHandler}) => {
                 </p>
               </div>
               <div className="calendar__item-buttons">
-                <Button onClick={onUnsubscribeButton} mod="calendar__button button--href" text="Удалить"/>
+                <Button onClick={() => onUnsubscribeButton(item.id)} mod="calendar__button button--href" text="Удалить"/>
                 <Button onClick={(event) => {
                   event.preventDefault();
                   onLink(item.id);
@@ -57,7 +57,7 @@ const Calendar = ({data, month, year, history, name, popupHandler}) => {
     })
 
     setElemsToShow(result)
-  }, [month, year])
+  }, [month, year, data])
 
   return (
     <div className="calendar">
@@ -83,7 +83,7 @@ const mstp = ({data, month, year, name}) => {
 }
 
 const mdtp = {
-  popupHandler,
+  onUnsubscribe,
 }
 
 export default withRouter(connect(mstp, mdtp)(Calendar));
