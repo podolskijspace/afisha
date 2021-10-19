@@ -5,7 +5,8 @@ ___
 ## <a name="zero"></a>Оглавление
 1. [Фичи проекта](#first)
 2. [Файловая структура](#second)
-3. [Описание сборки - eng (create-react-app)](#third)
+3. [Видео демонстрация](#third)
+4. [Описание сборки - eng (create-react-app)](#fourthd)
 ___
 ## <a name="first"></a> Фичи проекта
 При входе просят ввести имя и фамилию. Можно пропустить. Имя и фамилия запишутся в LocalStorage, и повторно спрашивать уже не будет. Сразу же проверяются данные в localStorage, если их нет, то берутся с сервера. 
@@ -63,8 +64,11 @@ root                                    | Корень проекта
 
 :arrow_up:[Оглавление](#first)
 ____
-
-## <a name="third"> </a>Описание сборки (create-react-app)
+## <a name="third"></a> Видео демонстрация
+https://youtube.com/shorts/0ine81uHfm8?feature=share
+:arrow_up:[Оглавление](#first)
+___
+## <a name="fourth"> </a>Описание сборки (create-react-app)
 ### Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
