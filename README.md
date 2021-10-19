@@ -65,7 +65,7 @@ root                                    | Корень проекта
 :arrow_up:[Оглавление](#first)
 ____
 ## <a name="third"></a> Видео демонстрация
-https://youtube.com/shorts/0ine81uHfm8?feature=share
+https://youtube.com/shorts/0ine81uHfm8?feature=share </br>
 :arrow_up:[Оглавление](#first)
 ___
 ## <a name="fourth"> </a>Описание сборки (create-react-app)
