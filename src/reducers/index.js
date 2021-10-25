@@ -41,7 +41,7 @@ const reducer = (state = initialState, action) => {
         data: action.payload
       };
     case 'ON_SIGN_UP':
-      let signUpId = state.data.findIndex(item => item.id == action.payload);
+      let signUpId = state.data.findIndex(item => +item.id === +action.payload);
       let newSignUpData = [...state.data];
       if (newSignUpData[signUpId].users) {
         newSignUpData[signUpId].users.push({name: state.name.name, sName: state.name.sName});
@@ -55,7 +55,7 @@ const reducer = (state = initialState, action) => {
         data: newSignUpData,
       };
     case 'ON_UNSUBSCRIBE':
-      let indexUnsub = state.data.findIndex(item => item.id == action.payload),
+      let indexUnsub = state.data.findIndex(item => +item.id === +action.payload),
           newItem = {...state.data[indexUnsub]},
           nameIndex = newItem.users.findIndex(item => {
               return (item.name === state.name.name && item.sName === state.name.sName);

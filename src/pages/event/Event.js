@@ -1,19 +1,41 @@
 import {useState, useEffect} from "react";
+import {connect} from "react-redux";
+import {onSignUp, onUnsubscribe, popupHandler} from "../../actions";
+import makeDate from "../../services/makeDate";
+
 import Container from "../../components/container/Container";
 import Button from "../../components/button/Button";
-import {connect} from "react-redux";
-import makeDate from "../../services/makeDate";
-import {onSignUp, onUnsubscribe, popupHandler} from "../../actions";
 
 
 const Event = ({itemId, data, onSignUp, name, popupHandler}) => {
+  const [usersList, setUsersList] = useState(null);
+
+  //Обработчики событий
+  const onSignUpButton = () => {
+    if (name && name.name && name.sName) {
+      onSignUp(itemId);
+    }
+    else {
+      popupHandler('sub', true)
+    }
+  }
+  const onUnsubscribeButton = () => {
+    popupHandler('unSub', true);
+  }
+
+  //Получаем данные для работы
   const item = data.find(item => +itemId === +item.id),
         newDate = makeDate(item ? item.date : new Date()),
         users = item && item.users;
   let answer;
-  const [usersList, setUsersList] = useState(null);
 
-  useEffect(() => { //Эффект для вывода подписанных людей снизу
+  if (users) {
+    answer = item.users.find(item => {
+      return (item.name === name.name && item.sName === name.sName);
+    })
+  }
+  //Эффекты
+  const renderDataOfSubscripePeople = () => {
     let array;
     if (users) {
       array = users.map((item, i) => {
@@ -27,30 +49,8 @@ const Event = ({itemId, data, onSignUp, name, popupHandler}) => {
     } else {
       setUsersList(null);
     }
-  },[data])
-
-  if (users) {
-    answer = item.users.find(item => {
-      return (item.name === name.name && item.sName === name.sName);
-    })
   }
-
-
-  const onSignUpButton = () => {
-    if (name && name.name && name.sName) {
-      onSignUp(itemId);
-    }
-    else {
-      popupHandler('sub', true)
-    }
-  }
-
-  const onUnsubscribeButton = () => {
-    popupHandler('unSub', true);
-  }
-
-
-
+  useEffect(renderDataOfSubscripePeople,[data])//Эффект для вывода подписанных людей снизу
 
   return (
     <div className="event">
@@ -87,7 +87,7 @@ const Event = ({itemId, data, onSignUp, name, popupHandler}) => {
     </div>
   )
 }
-
+//Компонент для вывода пользователей
 const ViewUsers = ({usersList}) => {
   if (usersList && usersList.length !== 0) {
     return (
@@ -102,18 +102,9 @@ const ViewUsers = ({usersList}) => {
   }
 }
 
-const mstp = ({data, name,}) => {
-  return {
-    data,
-    name,
-  }
-}
+const mstp = ({data, name}) => ({data, name})
 
-const mdtp = {
-  onSignUp,
-  onUnsubscribe,
-  popupHandler
-}
+const mdtp = {onSignUp, onUnsubscribe, popupHandler}
 
 
 export default connect(mstp, mdtp)(Event);

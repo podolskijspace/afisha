@@ -24,12 +24,13 @@
     padding: 50px 0;
 
     @include tablet {
+      width: 290px;
       padding: 20px 5px;
     }
 
     &-wrap {
-      border: 1px solid #E5E5E5;
-      border-radius: 5px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 2px;
       width: 100%;
     }
 
@@ -44,6 +45,7 @@
       font-weight: bold;
       flex: 1;
       margin-right: 10px;
+      color: rgba(0, 0, 0, 0.85)
     }
 
     &-button {
@@ -71,6 +73,7 @@
       padding: 16px 24px;
       font-size: 16px;
       font-weight: bold;
+      color: rgba(0, 0, 0, 0.85)
     }
   }
 }

@@ -1,15 +1,16 @@
-import Input from "../input/Input"
-import Button from "../button/Button";
 import {useState, useEffect} from "react";
-import {nameChange, popupHandler, onSignUp} from "../../actions";
 import {connect} from "react-redux";
 import { withRouter } from 'react-router'
+import {nameChange, popupHandler, onSignUp} from "../../actions";
 import cutWords from "../../services/cutWords";
+import cn from "classnames";
 
-// import svgClose from "../../images/svg/Close.svg";
+import Input from "../input/Input"
+import Button from "../button/Button";
+
+import iconClose from "../../assets/img/сlose.png";
 
 const PopupSub = ({popups, nameChange, popupHandler, history, data, onSignUp}) => {
-
   const [valueName, setValueName] = useState("");
   const [valueSName, setValueSName] = useState("");
   const [incorrectName, setIncorrectName] = useState(false);
@@ -17,26 +18,12 @@ const PopupSub = ({popups, nameChange, popupHandler, history, data, onSignUp}) =
   const [statusPopup, setStatus] = useState(false);
   const [item, setItem] = useState();
 
-  useEffect(() => {
-    setStatus(popups.sub);
-  }, [popups.sub])
-
-  useEffect(()=> {
-    const id = history.location.pathname.replace(/\D/g, '');
-    const newItem = {...data.find(item => +id === +item.id)};
-    if (newItem.description) {
-      newItem.description = cutWords(newItem && newItem.description ,5);
-    }
-    setItem(newItem);
-
-  }, [data]); //Здесь неправильно ставить зависимость, потому что не нужно постоянно обновление, но по-другому не понимаю, как через хуки сделать
-
+  //Обработчики событий
   const onInputDo = (event, set) => {
     event.preventDefault();
 
     set(event.target.value);
   }
-
   const onEnter = () => {
     if (valueName !== '' && valueSName !== '') {
       nameChange({name: valueName, sName: valueSName});
@@ -60,22 +47,31 @@ const PopupSub = ({popups, nameChange, popupHandler, history, data, onSignUp}) =
       }
     }
   }
-
   const onNo = () => {
     popupHandler('sub', false);
   }
 
+  //Эффекты
+  const makeEventDataDescr = () => {
+    const id = history.location.pathname.replace(/\D/g, '');
+    const newItem = {...data.find(item => +id === +item.id)};
+    if (newItem.description) {
+      newItem.description = cutWords(newItem && newItem.description ,5);
+    }
+    setItem(newItem);
+  }
+  useEffect(() => setStatus(popups.sub), [popups.sub]) //открывает и закрывает модалку
+  useEffect(makeEventDataDescr, [data]); //Делает текст описания коротким
+
   return (
-    <div className={`popup popup--sub${statusPopup ? ' active' : ''}`}>
+    <div className={cn('popup', 'popup--sub', {active: statusPopup})}>
       <div className="popup__wrapper">
         <div className="popup__header">
           <h3 className="popup__title">
             Записаться на событие
           </h3>
-          <div className="popup__close">
-            {/*{svgClose}*/}
-            Закрыть
-          </div>
+          <Button mod="popup__close button--only-icon" onClick={onNo} text={<img src={iconClose} alt={'close'}/>}
+          />
         </div>
         <div className="popup__event">
           <div className="popup__event-img">
@@ -91,44 +87,24 @@ const PopupSub = ({popups, nameChange, popupHandler, history, data, onSignUp}) =
           </div>
         </div>
         <div className="popup__body">
-          <Input
-          placeholder="Имя"
-          mod={`${incorrectName ? ' incorrect':''}`}
-          value={valueName}
-          onInput={event=>onInputDo(event, setValueName)}
-          />
-          <Input
-          placeholder="Фамилия"
-          mod={`${incorrectSName ? ' incorrect':''}`}
-          value={valueSName}
-          onInput={event=>onInputDo(event, setValueSName)}/>
+          <Input placeholder="Имя" mod={cn({'incorrect':incorrectName})} value={valueName} onInput={event=>onInputDo(event, setValueName)}/>
+          <Input placeholder="Фамилия" mod={cn({'incorrect':incorrectSName})} value={valueSName} onInput={event=>onInputDo(event, setValueSName)}/>
         </div>
         <div className="popup__bottom">
-          <Button
-          text="Отмена"
-          mod="popup__button"
-          onClick={onNo}/>
-          <Button
-          text="Ок"
-          mod="popup__button"
-          onClick={onEnter}/>
+          <Button mod="popup__button" onClick={onNo}>
+            Отмена
+          </Button>
+          <Button mod="popup__button" onClick={onEnter}>
+            Ок
+          </Button>
         </div>
       </div>
     </div>
   )
 }
 
-const mstp = ({popups, data}) => {
-  return {
-    popups,
-    data
-  }
-}
+const mstp = ({popups, data}) => ({popups, data})
 
-const mdtp = {
-  nameChange,
-  popupHandler,
-  onSignUp
-}
+const mdtp = {nameChange, popupHandler, onSignUp}
 
 export default withRouter(connect(mstp, mdtp)(PopupSub));

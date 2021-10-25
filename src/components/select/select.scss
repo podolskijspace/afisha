@@ -1,3 +1,20 @@
 .select {
+  position: relative;
 
+  &__select {
+    padding: 5px 15px 5px 12px;
+    appearance: none;
+    border: 1px solid #D9D9D9;
+    border-radius: 2px;
+    outline: 0;
+    cursor: pointer;
+  }
+
+  &__arrow {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
 }

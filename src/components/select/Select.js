@@ -1,16 +1,26 @@
-const Select = ({data = [],
-                  onChange = null,
-                  value,
-                  mod = ""}) => {
-  data = data.map((item, i) => {
+import cn from 'classnames';
+
+import arrow from '../../assets/img/arrow.png'
+
+const Select = ({mod = "",children, ...props}) => {
+  const dataMap = () => {
     return (
-      <option key={i} value={item.value}> {item.name}</option>
+      children.map((item, i) => {
+        return (
+          <option key={i} value={item.value}> {item.name}</option>
+        )
+      })
     )
-  })
+  }
+
   return (
-    <select className={`select ${mod}`} onChange={onChange} value={value}>
-      {data}
-    </select>
+    <div className={cn('select', mod)}>
+      <img className="select__arrow" src={arrow} alt="arrow"/>
+      <select className="select__select" {...props}>
+        {dataMap()}
+      </select>
+    </div>
+
   )
 }
 

@@ -1,15 +1,7 @@
-import React, {Component} from "react";
+const Container = ({mod = "", children, }) => (
+  <div className={`container ${mod}`}>
+    {children}
+  </div>
+)
 
-export default class Container extends Component {
-  
-  render () {
-    const mod = this.props.mod ? this.props.mod : "";
-
-    return (
-      <div className={"container " + mod}>
-        {this.props.children}
-      </div>
-    )
-
-  }
-}
+export default Container

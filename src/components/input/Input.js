@@ -1,17 +1,5 @@
-const Input = ({  type="text",
-                  placeholder="",
-                  value="",
-                  mod="",
-                  onInput=null,}) => {
+import cn from 'classnames'
 
+const Input = ({mod="", ...props}) => <input className={cn('input', mod)} {...props}/>
 
-
-  return <input
-          onInput={onInput}
-          type={type}
-          placeholder={placeholder}
-          value={value}
-          className={`input ${mod}`}/>
-}
-
-export default Input;
+export default Input

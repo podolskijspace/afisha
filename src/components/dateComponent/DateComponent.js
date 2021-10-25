@@ -1,83 +1,84 @@
-import Select from "../select/Select";
-import {useEffect, useState} from "react";
-import {connect} from "react-redux";
+import {useEffect, useState} from "react"
+import {connect} from "react-redux"
 import {onSetMonth, onSetYear} from '../../actions/index'
+
+import Select from "../select/Select"
 
 const date = new Date(),
       months = [
-  {name: 'Январь', value: '0'},
-  {name: 'Февраль', value: '1'},
-  {name: 'Март', value: '2'},
-  {name: 'Апрель', value: '3'},
+  {name: 'Янв', value: '0'},
+  {name: 'Фев', value: '1'},
+  {name: 'Мар', value: '2'},
+  {name: 'Апр', value: '3'},
   {name: 'Май', value: '4'},
-  {name: 'Июнь', value: '5'},
-  {name: 'Июль', value: '6'},
-  {name: 'Август', value: '7'},
-  {name: 'Сентябрь', value: '8'},
-  {name: 'Октябрь', value: '9'},
-  {name: 'Ноябрь', value: '10'},
-  {name: 'Декабрь', value: '11'},
+  {name: 'Июн', value: '5'},
+  {name: 'Июл', value: '6'},
+  {name: 'Авг', value: '7'},
+  {name: 'Сен', value: '8'},
+  {name: 'Окт', value: '9'},
+  {name: 'Ноя', value: '10'},
+  {name: 'Дек', value: '11'},
 ],
       years = [
+  {name: '2022', value: '2022'},
   {name: '2021', value: '2021'},
   {name: '2020', value: '2020'},
   {name: '2019', value: '2019'},
   {name: '2018', value: '2018'},
   {name: '2017', value: '2017'},
-];
+]
 
 const DateComponent = ({onSetMonth, onSetYear, month, year}) => {
-  const [yearValue, setYearValue] = useState(year || date.getFullYear()),
-        [monthValue, setMonthValue] = useState(month || date.getMonth());
+  const [yearValue, setYearValue] = useState(year || 2022),
+        [monthValue, setMonthValue] = useState(month || date.getMonth())
 
-  useEffect(() => {
+  //События элементов
+  const onYearSelect = (event) => {
+    event.preventDefault()
+    const newValue = +event.target.value
+    setYearValue(newValue)
+    console.log(newValue)
+    localStorage.setItem('eventsYear', newValue)
+    onSetYear(newValue)
+
+  }
+  const onMonthSelect = (event) => {
+    event.preventDefault()
+    const newValue = +event.target.value
+    setMonthValue(newValue)
+    localStorage.setItem('eventsMonth',newValue)
+    onSetMonth(newValue)
+
+  }
+
+  //Эффекты
+  const checkDateInStorage = () => {
     const month = localStorage.getItem('eventsMonth'),
-      year = localStorage.getItem('eventsYear');
+      year = localStorage.getItem('eventsYear')
+
     if (month) {
-      setMonthValue(+month);
+      setMonthValue(+month)
     }
     if (year) {
-      setYearValue(+year);
+      setYearValue(+year)
     }
-  }, [])
-
-  const onYearSelect = (event) => {
-    event.preventDefault();
-    const newValue = +event.target.value;
-    setYearValue(newValue);
-    console.log(newValue)
-    localStorage.setItem('eventsYear', newValue);
-    onSetYear(newValue);
-
   }
-
-  const onMonthSelect = (event) => {
-    event.preventDefault();
-    const newValue = +event.target.value;
-    setMonthValue(newValue);
-    localStorage.setItem('eventsMonth',newValue);
-    onSetMonth(newValue);
-
-  }
+  useEffect(checkDateInStorage, []) //Проверяем есть ли дата в памяти
 
   return (
     <div className="date">
-      <Select mod="date__select" data={months} value={monthValue} onChange={onMonthSelect}/>
-      <Select mod="date__select" data={years} value={yearValue} onChange={onYearSelect}/>
+      <Select mod="date__select" value={yearValue} onChange={onYearSelect}>
+        {years}
+      </Select>
+      <Select mod="date__select" value={monthValue} onChange={onMonthSelect}>
+        {months}
+      </Select>
     </div>
   )
 }
 
-const mstp = ({month, year}) => {
-  return {
-    month,
-    year
-  }
-}
+const mstp = ({month, year}) => ({month, year})
 
-const mdtp = {
-  onSetMonth,
-  onSetYear
-}
+const mdtp = {onSetMonth, onSetYear}
 
-export default connect(mstp, mdtp)(DateComponent);
+export default connect(mstp, mdtp)(DateComponent)

@@ -1,27 +1,24 @@
 import {useState, useEffect} from "react";
-import Container from "../../components/container/Container";
-import Button from "../../components/button/Button";
-import DateComponent from "../../components/dateComponent/DateComponent";
 import {connect} from "react-redux";
 import { withRouter } from 'react-router'
 import makeDate from "../../services/makeDate";
 
-
+import Container from "../../components/container/Container";
+import DateComponent from "../../components/dateComponent/DateComponent";
 
 const Events = ({data, history, month, year}) => {
   const [elemsToShow, setElemsToShow] = useState();
 
+  //Обработчики событий
   const onLink = ((id) => {
     history.push(`/events/${id}`)
   })
 
-
-  useEffect(() => {
-
-
+  //Эффекты
+  const renderData = () => {
     const result = data.map ((item) => {
       let monthItem = (new Date(item.date)).getMonth(),
-          yearItem = (new Date(item.date)).getFullYear();
+        yearItem = (new Date(item.date)).getFullYear();
       if (yearItem === year && monthItem === month) {
         let newDate = makeDate(item.date)
 
@@ -33,14 +30,12 @@ const Events = ({data, history, month, year}) => {
               <span className="events__item-title">
                 {item.title}
               </span>
-                  <Button onClick={(event) => {
+                  <button onClick={(event) => {
                     event.preventDefault();
                     onLink(item.id);
-                  }}
-                    mod="transparent events__item-button"
-                    href
-                    text = "Больше"
-                  />
+                  }} className="transparent events__item-button button button--href">
+                    Больше
+                  </button>
                 </div>
                 <div className="events__item-img">
                   <img src={item.image} alt={item.title}/>
@@ -53,13 +48,14 @@ const Events = ({data, history, month, year}) => {
           </li>
         )
       }
+      else {
+        return null;
+      }
     })
 
     setElemsToShow(result)
-  }, [month, year])
-
-
-
+  }
+  useEffect(renderData, [month, year])
 
   return (
     <div className="events">
@@ -75,19 +71,8 @@ const Events = ({data, history, month, year}) => {
   )
 }
 
+const mstp = ({data, month, year}) => ({data, month, year})
 
-
-const mstp = ({data, month, year}) => {
-  return {
-    data,
-    month,
-    year
-  }
-}
-
-const mdtp = {
-
-}
-
+const mdtp = {}
 
 export default withRouter(connect(mstp, mdtp)(Events));
